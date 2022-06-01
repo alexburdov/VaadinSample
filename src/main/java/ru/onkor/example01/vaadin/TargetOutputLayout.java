@@ -3,12 +3,19 @@ package ru.onkor.example01.vaadin;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 
-public class XmlOutputLayout extends VerticalLayout {
+/**
+ * Панель результата
+ */
+public class TargetOutputLayout extends VerticalLayout {
 
     private static final String LABEL_OUTPUT_TEXT = "Результат конвертации";
+
+    /**
+     * Панель
+     */
     private final TextArea textArea;
 
-    public XmlOutputLayout() {
+    public TargetOutputLayout() {
         textArea = new TextArea();
         textArea.setLabel(LABEL_OUTPUT_TEXT);
         textArea.setHeight("100%");
@@ -17,6 +24,11 @@ public class XmlOutputLayout extends VerticalLayout {
         add(textArea);
     }
 
+    /**
+     * Установить текст панели
+     *
+     * @param text - текст
+     */
     public void setText(String text) {
         textArea.setValue(text);
     }

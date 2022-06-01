@@ -5,16 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.format.DateTimeFormatter;
 
 /**
  * DTO истории конвертации
  */
 @AllArgsConstructor
 public class ConvertItemDto {
-
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     /**
      * Исходный текст для конвертации
@@ -36,10 +32,6 @@ public class ConvertItemDto {
     @Getter
     @Setter
     private LocalDateTime dt;
-
-    public String getDateTime() {
-        return dt.format(formatter);
-    }
 
     /**
      * Статус конвертации (Удачно - truе, Не успешно - false)
