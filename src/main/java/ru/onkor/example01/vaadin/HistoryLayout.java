@@ -33,6 +33,9 @@ public class HistoryLayout extends Grid<ConvertItemDto> {
                 .setHeader("Дата/Время")
                 .setSortable(true)
                 .setComparator(ConvertItemDto::getDt);
+        addColumn(ConvertItemDto::getConvertType).setHeader("Тип конвертации")
+                .setSortable(true)
+                .setComparator(ConvertItemDto::getConvertType);
         addColumn(it -> it.isSuccess() ? "Успешно" : "Ошибка")
                 .setHeader("Успешно?")
                 .setSortable(true)
@@ -44,9 +47,7 @@ public class HistoryLayout extends Grid<ConvertItemDto> {
             if (convertItem.isPresent()) {
                 ConvertItemDto dto = convertItem.get();
                 inputLayout.setText(dto.getSource());
-                if (dto.isSuccess()) {
-                    outputLayout.setText(dto.getConverted());
-                }
+                outputLayout.setText(dto.getConverted());
             } else {
                 inputLayout.setText(StringUtils.EMPTY);
                 outputLayout.setText(StringUtils.EMPTY);

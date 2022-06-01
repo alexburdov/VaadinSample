@@ -39,4 +39,11 @@ public class ConvertItemDto {
     @Getter
     @Setter
     private boolean isSuccess;
+
+    /**
+     * Тип конвертации
+     */
+    @Getter
+    @Setter
+    private String convertType;
 }

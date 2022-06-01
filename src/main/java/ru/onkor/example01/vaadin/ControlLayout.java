@@ -24,6 +24,8 @@ public class ControlLayout extends VerticalLayout {
 
     private static final String CB_CONVERT_TITLE = "Тип конвертации";
 
+    private static final String CONVERTER_NOT_FOUND = "Не определен конвертер";
+
     /**
      * Типы конвертации
      */
@@ -41,38 +43,35 @@ public class ControlLayout extends VerticalLayout {
         CONVERT_TYPES = new ArrayList<>(CONVERTERS.keySet());
     }
 
-    /**
-     * Текущий конвертер
-     */
-    private Converter currentConverter;
+    private final ComboBox<String> convertChoose = new ComboBox<>(CB_CONVERT_TITLE);
 
     public ControlLayout(SourceInputLayout inputLayout, TargetOutputLayout outputLayout, HistoryLayout historyLayout) {
         Button button = new Button(CONVERT_TEXT, event -> {
             String text = inputLayout.getText();
-            String result = StringUtils.EMPTY;
+            String result;
             boolean isSuccess = true;
-            try {
-                result = currentConverter.convert(text);
-            } catch (ConverterException e) {
+            String currentConverter =  convertChoose.getValue();
+            if (CONVERTERS.containsKey(currentConverter)) {
+                try {
+                    result = CONVERTERS.get(currentConverter).convert(text);
+                } catch (ConverterException e) {
+                    isSuccess = false;
+                    result = e.getMessage();
+                }
+            } else {
                 isSuccess = false;
+                result = CONVERTER_NOT_FOUND;
             }
-            historyLayout.addItem(new ConvertItemDto(text, result, LocalDateTime.now(), isSuccess));
+
+            historyLayout.addItem(new ConvertItemDto(text, result, LocalDateTime.now(), isSuccess, currentConverter));
             outputLayout.setText(result);
         });
 
         button.setWidth("100%");
 
-        ComboBox<String> convertChoose = new ComboBox<>(CB_CONVERT_TITLE);
         convertChoose.setItems(CONVERT_TYPES);
         String defaultConverterType = CONVERT_TYPES.get(0);
-        currentConverter = CONVERTERS.get(defaultConverterType);
         convertChoose.setValue(defaultConverterType);
-        convertChoose.addValueChangeListener(e -> {
-            String val = e.getValue();
-            if (CONVERTERS.containsKey(val)) {
-                currentConverter = CONVERTERS.get(val);
-            }
-        });
 
         convertChoose.setWidth("100%");
 

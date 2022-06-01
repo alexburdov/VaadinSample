@@ -9,9 +9,7 @@ import com.vaadin.flow.component.textfield.TextArea;
 public class SourceInputLayout extends VerticalLayout {
     private static final String LABEL_INPUT = "Введите текст для конвертации";
 
-    /**
-     * Панель
-     */
+    /** Панель */
     private final TextArea textArea;
 
     public SourceInputLayout() {
