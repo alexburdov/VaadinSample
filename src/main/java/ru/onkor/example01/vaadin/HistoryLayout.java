@@ -24,6 +24,11 @@ public class HistoryLayout extends Grid<ConvertItemDto> {
      */
     private final List<ConvertItemDto> items = new ArrayList<>();
 
+    /**
+     * Layout управления
+     */
+    private ControlLayout controlLayout;
+
     public HistoryLayout(SourceInputLayout inputLayout, TargetOutputLayout outputLayout) {
         super(ConvertItemDto.class, false);
 
@@ -48,9 +53,15 @@ public class HistoryLayout extends Grid<ConvertItemDto> {
                 ConvertItemDto dto = convertItem.get();
                 inputLayout.setText(dto.getSource());
                 outputLayout.setText(dto.getConverted());
+                if (controlLayout != null) {
+                    controlLayout.setConvertTypes(dto.getConvertType());
+                }
             } else {
                 inputLayout.setText(StringUtils.EMPTY);
                 outputLayout.setText(StringUtils.EMPTY);
+                if (controlLayout != null) {
+                    controlLayout.setConvertTypes(ControlLayout.DEFAULT_CONVERT_TYPE);
+                }
             }
         });
 
@@ -70,5 +81,15 @@ public class HistoryLayout extends Grid<ConvertItemDto> {
         items.add(item);
         getDataProvider().refreshAll();
         deselectAll();
+        select(item);
+    }
+
+    /**
+     * Установить контроллер управления
+     *
+     * @param controlLayout - контроллер управление
+     */
+    public void setControlLayout(ControlLayout controlLayout) {
+        this.controlLayout = controlLayout;
     }
 }

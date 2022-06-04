@@ -26,6 +26,8 @@ public class ControlLayout extends VerticalLayout {
 
     private static final String CONVERTER_NOT_FOUND = "Не определен конвертер";
 
+    public static final String DEFAULT_CONVERT_TYPE = "Подчеркивание";
+
     /**
      * Типы конвертации
      */
@@ -37,7 +39,7 @@ public class ControlLayout extends VerticalLayout {
 
     static {
         CONVERTERS = Map.of(
-                "Подчеркивание", new SimpleConvertorImpl(),
+                DEFAULT_CONVERT_TYPE, new SimpleConvertorImpl(),
                 "JSON->XML", new JsonToXmlConverterImpl()
         );
         CONVERT_TYPES = new ArrayList<>(CONVERTERS.keySet());
@@ -70,8 +72,7 @@ public class ControlLayout extends VerticalLayout {
         button.setWidth("100%");
 
         convertChoose.setItems(CONVERT_TYPES);
-        String defaultConverterType = CONVERT_TYPES.get(0);
-        convertChoose.setValue(defaultConverterType);
+        convertChoose.setValue(DEFAULT_CONVERT_TYPE);
 
         convertChoose.setWidth("100%");
 
@@ -80,5 +81,9 @@ public class ControlLayout extends VerticalLayout {
 
         add(button, convertChoose);
         setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+    }
+
+    public void setConvertTypes(String convertType) {
+        convertChoose.setValue(convertType);
     }
 }

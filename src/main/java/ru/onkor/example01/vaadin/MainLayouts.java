@@ -1,7 +1,6 @@
 package ru.onkor.example01.vaadin;
 
 import com.vaadin.flow.component.applayout.AppLayout;
-import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.router.Route;
@@ -10,7 +9,6 @@ import com.vaadin.flow.router.Route;
  * Основная панель
  */
 @Route("")
-@StyleSheet("frontend:://styles/vaadin-grid.css")
 public class MainLayouts extends AppLayout {
 
     public MainLayouts() {
@@ -20,6 +18,7 @@ public class MainLayouts extends AppLayout {
         TargetOutputLayout outputLayout = new TargetOutputLayout();
         HistoryLayout historyLayout = new HistoryLayout(inputLayout, outputLayout);
         ControlLayout controlLayout = new ControlLayout(inputLayout, outputLayout, historyLayout);
+        historyLayout.setControlLayout(controlLayout);
 
         convertLayout.add(inputLayout);
         convertLayout.add(controlLayout);
