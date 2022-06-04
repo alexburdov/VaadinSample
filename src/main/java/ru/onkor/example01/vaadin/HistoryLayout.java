@@ -1,6 +1,7 @@
 package ru.onkor.example01.vaadin;
 
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridSortOrder;
 import org.apache.commons.lang3.StringUtils;
 import ru.onkor.example01.dto.ConvertItemDto;
 
@@ -34,10 +35,11 @@ public class HistoryLayout extends Grid<ConvertItemDto> {
 
         addColumn(ConvertItemDto::getSource).setHeader("Исходный");
         addColumn(ConvertItemDto::getConverted).setHeader("Результат");
-        addColumn(item -> item.getDt().format(DATE_TIME_FORMATTER))
-                .setHeader("Дата/Время")
-                .setSortable(true)
-                .setComparator(ConvertItemDto::getDt);
+        Column<ConvertItemDto> dateColumn
+                = addColumn(item -> item.getDt().format(DATE_TIME_FORMATTER))
+                    .setHeader("Дата/Время")
+                    .setSortable(true)
+                    .setComparator(ConvertItemDto::getDt);
         addColumn(ConvertItemDto::getConvertType).setHeader("Тип конвертации")
                 .setSortable(true)
                 .setComparator(ConvertItemDto::getConvertType);
@@ -45,6 +47,8 @@ public class HistoryLayout extends Grid<ConvertItemDto> {
                 .setHeader("Успешно?")
                 .setSortable(true)
                 .setComparator(ConvertItemDto::isSuccess);
+
+        sort(GridSortOrder.desc(dateColumn).build());
         setItems(items);
 
         addSelectionListener(selection -> {
