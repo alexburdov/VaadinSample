@@ -25,8 +25,11 @@ public class MainLayouts extends AppLayout {
         convertLayout.add(outputLayout);
 
         SplitLayout splitLayout = new SplitLayout(convertLayout, historyLayout);
+
         splitLayout.setHeight("100%");
         splitLayout.setWidth("100%");
+        splitLayout.setMinHeight("700px");
+        splitLayout.setMinWidth("700px");
         splitLayout.setSplitterPosition(70);
         splitLayout.setOrientation(SplitLayout.Orientation.VERTICAL);
 

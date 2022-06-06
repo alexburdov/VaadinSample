@@ -29,7 +29,8 @@ public class TargetOutputLayout extends VerticalLayout {
      *
      * @param text - текст
      */
-    public void setText(String text) {
+    public void setText(String text, boolean isValid) {
         textArea.setValue(text);
+        textArea.setInvalid(!isValid);
     }
 }

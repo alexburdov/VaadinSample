@@ -1,7 +1,9 @@
 package ru.onkor.example01.vaadin;
 
+import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridSortOrder;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
 import org.apache.commons.lang3.StringUtils;
 import ru.onkor.example01.dto.ConvertItemDto;
 
@@ -37,13 +39,19 @@ public class HistoryLayout extends Grid<ConvertItemDto> {
         addColumn(ConvertItemDto::getConverted).setHeader("Результат");
         Column<ConvertItemDto> dateColumn
                 = addColumn(item -> item.getDt().format(DATE_TIME_FORMATTER))
-                    .setHeader("Дата/Время")
-                    .setSortable(true)
-                    .setComparator(ConvertItemDto::getDt);
+                .setHeader("Дата/Время")
+                .setSortable(true)
+                .setComparator(ConvertItemDto::getDt);
         addColumn(ConvertItemDto::getConvertType).setHeader("Тип конвертации")
                 .setSortable(true)
                 .setComparator(ConvertItemDto::getConvertType);
-        addColumn(it -> it.isSuccess() ? "Успешно" : "Ошибка")
+        addColumn(new ComponentRenderer<>(it -> {
+            if (it.isSuccess()) {
+                return new Html("<div style = 'color: green'>Успешно</div>");
+            } else {
+                return new Html("<div style = 'color: RED'>Ошибка</div>");
+            }
+        }))
                 .setHeader("Успешно?")
                 .setSortable(true)
                 .setComparator(ConvertItemDto::isSuccess);
@@ -56,23 +64,17 @@ public class HistoryLayout extends Grid<ConvertItemDto> {
             if (convertItem.isPresent()) {
                 ConvertItemDto dto = convertItem.get();
                 inputLayout.setText(dto.getSource());
-                outputLayout.setText(dto.getConverted());
+                outputLayout.setText(dto.getConverted(), dto.isSuccess());
                 if (controlLayout != null) {
                     controlLayout.setConvertTypes(dto.getConvertType());
                 }
             } else {
                 inputLayout.setText(StringUtils.EMPTY);
-                outputLayout.setText(StringUtils.EMPTY);
+                outputLayout.setText(StringUtils.EMPTY, true);
                 if (controlLayout != null) {
                     controlLayout.setConvertTypes(ControlLayout.DEFAULT_CONVERT_TYPE);
                 }
             }
-        });
-
-        setClassNameGenerator(item -> {
-            if (!item.isSuccess())
-                return "error-rating";
-            return null;
         });
     }
 

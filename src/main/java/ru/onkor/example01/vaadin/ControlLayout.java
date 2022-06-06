@@ -4,7 +4,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import org.apache.commons.lang3.StringUtils;
 import ru.onkor.example01.Exceptions.ConverterException;
 import ru.onkor.example01.dto.ConvertItemDto;
 import ru.onkor.example01.model.Converter;
@@ -52,7 +51,7 @@ public class ControlLayout extends VerticalLayout {
             String text = inputLayout.getText();
             String result;
             boolean isSuccess = true;
-            String currentConverter =  convertChoose.getValue();
+            String currentConverter = convertChoose.getValue();
             if (CONVERTERS.containsKey(currentConverter)) {
                 try {
                     result = CONVERTERS.get(currentConverter).convert(text);
@@ -66,7 +65,7 @@ public class ControlLayout extends VerticalLayout {
             }
 
             historyLayout.addItem(new ConvertItemDto(text, result, LocalDateTime.now(), isSuccess, currentConverter));
-            outputLayout.setText(result);
+            outputLayout.setText(result, isSuccess);
         });
 
         button.setWidth("100%");
@@ -75,7 +74,7 @@ public class ControlLayout extends VerticalLayout {
         convertChoose.setValue(DEFAULT_CONVERT_TYPE);
 
         convertChoose.setWidth("100%");
-
+        setMinWidth("250px");
         setWidth("10%");
         setHeight("100%");
 
